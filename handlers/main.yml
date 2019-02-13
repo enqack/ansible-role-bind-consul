@@ -1,0 +1,6 @@
+---
+- name: restart bind
+  service:
+    name: "{{ bind_consul_bind_daemon }}"
+    state: restarted
+  become: true

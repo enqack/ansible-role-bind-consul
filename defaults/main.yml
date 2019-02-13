@@ -1,0 +1,4 @@
+---
+# defaults file for enqack.bind-consul
+
+bind_consul_inventory_group: bind_consul

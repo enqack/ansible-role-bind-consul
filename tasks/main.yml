@@ -1,0 +1,25 @@
+---
+# tasks file for enqack.bind-consul
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+
+- block:
+  - name: Install Consul Zone file.
+    copy:
+      src: "{{ role_path }}/files/consul.zone.conf"
+      dest: "{{ bind_config_dir }}/consul.zone.conf"
+
+  - name: Configure bind system to use consul zone.
+    lineinfile:
+      path: "{{ bind_config_file }}"
+      insertafter: '$'
+      line: 'include "/etc/bind/consul.zone.conf";'
+    notify:
+      - restart bind
+
+  when: inventory_hostname in groups[bind_consul_inventory_group]

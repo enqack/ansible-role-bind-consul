@@ -1,0 +1,7 @@
+# roles/bind-consul/vars/Debian.yml
+---
+
+bind_consul_bind_daemon: bind9.service
+
+bind_config_dir: /etc/bind
+bind_config_file: /etc/bind/named.conf

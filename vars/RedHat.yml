@@ -1,0 +1,7 @@
+# roles/bind-consul/vars/RedHat.yml
+---
+
+bind_consul_bind_daemon: named.service
+
+bind_config_dir: /etc/bind
+bind_config_file: /etc/named.conf
