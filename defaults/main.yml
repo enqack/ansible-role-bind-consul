@@ -2,3 +2,5 @@
 # defaults file for enqack.bind-consul
 
 bind_consul_inventory_group: bind_consul
+bind_consul_nameserver: 127.0.0.1
+bind_consul_nameserver_port: 8600

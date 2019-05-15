@@ -1,7 +1,7 @@
 ---
 # tasks file for enqack.bind-consul
 
-- name: gather os specific variables
+- name: Gather os specific variables
   include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
@@ -9,10 +9,13 @@
     - "{{ ansible_os_family }}.yml"
 
 - block:
-  - name: Install Consul Zone file.
-    copy:
-      src: "{{ role_path }}/files/consul.zone.conf"
-      dest: "{{ bind_config_dir }}/consul.zone.conf"
+  - name: Install iptables save programs
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - iptables-persistent
+      - netfilter-persistent
 
   - name: Configure bind system to use consul zone.
     lineinfile:
@@ -21,5 +24,33 @@
       line: 'include "/etc/bind/consul.zone.conf";'
     notify:
       - restart bind
+
+  - name: Configure iptables to redirect UDP traffic to consul
+    iptables:
+      table: nat
+      chain: OUTPUT
+      destination: localhost
+      protocol: udp
+      match: udp
+      destination_port: 53
+      jump: REDIRECT
+      to_ports: "{{ bind_consul_nameserver_port }}"
+      comment: bind-consul
+    notify:
+      - save iptables
+
+  - name: Configure iptables to redirect TCP traffic to consul
+    iptables:
+      table: nat
+      chain: OUTPUT
+      destination: localhost
+      protocol: tcp
+      match: tcp
+      destination_port: 53
+      jump: REDIRECT
+      to_ports: "{{ bind_consul_nameserver_port }}"
+      comment: bind-consul
+    notify:
+      - save iptables
 
   when: inventory_hostname in groups[bind_consul_inventory_group]

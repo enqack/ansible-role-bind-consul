@@ -1,17 +1,22 @@
-Role Name
+bind-consul
 =========
 
-A brief description of the role goes here.
+Configures DNS forwarding for Consul using bind and iptables.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+ * Consul
+ * Bind
+ * Systemd
+ * iptables
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+    bind_consul_inventory_group: bind_consul
+    bind_consul_nameserver: 127.0.0.1
+    bind_consul_nameserver_port: 8600
 
 Dependencies
 ------------
@@ -35,4 +40,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Steve Verhelle (enqack) enqack@gmail.com
