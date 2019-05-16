@@ -1,5 +1,5 @@
 zone "consul" IN {
   type forward;
   forward only;
-  forwarders { {{ bind_consul_nameserver }} port {{ bind_consul_nameserver_port }}; };
+  forwarders { {{ bind_consul_consul_address }} port {{ bind_consul_consul_dns_port }}; };
 };

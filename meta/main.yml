@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: bind-consul
   author: enqack
-  description: your description
+  description: Configures DNS forwarding for Consul using bind and iptables.
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value

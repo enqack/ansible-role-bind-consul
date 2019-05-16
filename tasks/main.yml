@@ -25,7 +25,7 @@
     notify:
       - restart bind
 
-  - name: Configure iptables to redirect UDP traffic to consul
+  - name: Configure iptables to redirect UDP DNS traffic to consul
     iptables:
       table: nat
       chain: OUTPUT
@@ -34,12 +34,12 @@
       match: udp
       destination_port: 53
       jump: REDIRECT
-      to_ports: "{{ bind_consul_nameserver_port }}"
+      to_ports: "{{ bind_consul_consul_dns_port }}"
       comment: bind-consul
     notify:
       - save iptables
 
-  - name: Configure iptables to redirect TCP traffic to consul
+  - name: Configure iptables to redirect TCP DNS traffic to consul
     iptables:
       table: nat
       chain: OUTPUT
@@ -48,7 +48,7 @@
       match: tcp
       destination_port: 53
       jump: REDIRECT
-      to_ports: "{{ bind_consul_nameserver_port }}"
+      to_ports: "{{ bind_consul_consul_dns_port }}"
       comment: bind-consul
     notify:
       - save iptables

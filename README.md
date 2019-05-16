@@ -8,29 +8,36 @@ Requirements
 
  * Consul
  * Bind
- * Systemd
  * iptables
 
 Role Variables
 --------------
 
     bind_consul_inventory_group: bind_consul
-    bind_consul_nameserver: 127.0.0.1
-    bind_consul_nameserver_port: 8600
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+    bind_consul_consul_address: 127.0.0.1
+    bind_consul_consul_dns_port: 8600
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Host file:
 
-    - hosts: servers
+    [nameservers]
+    ns1.example.com
+    ns2.example.com
+    ns1.example.net
+    ns2.example.net
+
+    [bind_consul]
+    ns1.example.net
+    ns2.example.net
+
+
+Playbook:
+
+    - hosts: nameservers
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: enqack.bind-consul
 
 License
 -------
